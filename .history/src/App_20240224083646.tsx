@@ -1,9 +1,17 @@
-import { useState } from 'react';
-import Anime from './Components/Anime';
+import { ChangeEvent, useState } from 'react';
 
 function App() {
-    const [input, setInput] = useState('');
-    const [data, setData] = useState([]);
+    // api link: https://api.jikan.moe/v4/anime?q=naruto
+
+    /*
+      program logic :
+      1 - take the input and save it in a state // done
+      2 - when clicking on the button (onClick)
+          call the api (spared function)
+          show the imgs
+     */
+
+    const [input, setInput] = useState<string>('');
     console.log(input);
 
     const saveInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -15,9 +23,8 @@ function App() {
             const response = await fetch(
                 `https://api.jikan.moe/v4/anime?q=${input}`
             );
-            const animeData = await response.json();
-            setData(animeData.data); // set the data to my state
-            console.log(animeData.data);
+            const animeImgs = await response.json();
+            console.log(animeImgs);
         } catch (err) {
             console.log('error while fetching the data');
         }
@@ -32,13 +39,14 @@ function App() {
                     onChange={saveInputHandler}
                     placeholder="write your favorite anime"
                 />
-                <button onClick={getAnime}>Search</button>
+                <button
+                    onClick={(e) => {
+                        console.log(e.target);
+                    }}
+                >
+                    Search
+                </button>
             </div>
-            {data.length > 0 ? (
-                data.map((anime, id) => <Anime anime={anime} id={id} />)
-            ) : (
-                <div>Data not found</div>
-            )}
         </>
     );
 }

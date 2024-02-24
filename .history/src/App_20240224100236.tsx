@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import Anime from './Components/Anime';
 
 function App() {
-    const [input, setInput] = useState('');
+    const [input, setInput] = useState<string>('');
     const [data, setData] = useState([]);
     console.log(input);
 
@@ -35,7 +34,13 @@ function App() {
                 <button onClick={getAnime}>Search</button>
             </div>
             {data.length > 0 ? (
-                data.map((anime, id) => <Anime anime={anime} id={id} />)
+                data.map((anime, id) => (
+                    <img
+                        key={id}
+                        src={anime.images.jpg.image_url}
+                        alt={`Image ${id}`}
+                    />
+                ))
             ) : (
                 <div>Data not found</div>
             )}

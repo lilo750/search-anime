@@ -1,8 +1,17 @@
-import { useState } from 'react';
-import Anime from './Components/Anime';
+import { useEffect, useState } from 'react';
 
 function App() {
-    const [input, setInput] = useState('');
+    // api link: https://api.jikan.moe/v4/anime?q=naruto
+
+    /*
+      program logic :
+      1 - take the input and save it in a state // done
+      2 - when clicking on the button (onClick)
+          call the api (spared function)
+          show the imgs
+     */
+
+    const [input, setInput] = useState<string>('');
     const [data, setData] = useState([]);
     console.log(input);
 
@@ -34,11 +43,13 @@ function App() {
                 />
                 <button onClick={getAnime}>Search</button>
             </div>
-            {data.length > 0 ? (
-                data.map((anime, id) => <Anime anime={anime} id={id} />)
-            ) : (
-                <div>Data not found</div>
-            )}
+            {data.map((img, id) => (
+                <img
+                    key={id}
+                    src={img.images?.jpg?.image_url}
+                    alt={`Image ${id}`}
+                />
+            ))}
         </>
     );
 }
